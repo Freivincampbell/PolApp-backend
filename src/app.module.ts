@@ -14,7 +14,10 @@ dotenv.config();
 			isGlobal: true,
 			load: [envConfiguration],
 		}),
-		MongooseModule.forRoot(process.env.DB_URL),
+		MongooseModule.forRoot(process.env.DB_URL, {
+			useFindAndModify: true,
+			useUnifiedTopology: true,
+			useCreateIndex: true,
 	],
 	controllers: [AppController],
 	providers: [AppService],
