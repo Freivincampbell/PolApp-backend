@@ -4,7 +4,7 @@
   "description": "",
   "author": "Freivin Campbell, Deiver Cubero, Eliecer Narvaez",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "Apache License 2.0",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -30,6 +30,7 @@
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "dotenv": "^8.2.0",
+    "mongoose": "^5.12.4",
     "mongoose-unique-validator": "^2.0.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
