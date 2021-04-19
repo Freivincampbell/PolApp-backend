@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { envConfiguration } from './lib/config/envConfiguration';
+import { RolesModule } from './roles/roles.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -14,7 +15,12 @@ dotenv.config();
 			isGlobal: true,
 			load: [envConfiguration],
 		}),
-		MongooseModule.forRoot(process.env.DB_URL),
+		MongooseModule.forRoot(process.env.DB_URL, {
+			useFindAndModify: true,
+			useUnifiedTopology: true,
+			useCreateIndex: true,
+		}),
+		RolesModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
