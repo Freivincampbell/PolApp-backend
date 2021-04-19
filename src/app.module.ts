@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { envConfiguration } from './lib/config/envConfiguration';
 import { RolesModule } from './roles/roles.module';
+import { StatusesModule } from './statuses/statuses.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -21,6 +22,7 @@ dotenv.config();
 			useCreateIndex: true,
 		}),
 		RolesModule,
+		StatusesModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
