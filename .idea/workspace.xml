@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="962a1ac0-f8b9-40c2-b82a-74eb1a4d72b7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/interfaces/role.interface.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/roles/dto/create-role.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/roles/dto/update-role.dto.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/roles/entities/role.entity.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/roles/roles.controller.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/roles/roles.controller.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/roles/roles.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/roles/roles.service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/roles/roles.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/schemas/role.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.module.ts" afterDir="false" />
@@ -53,7 +45,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/roles/dto" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/schemas" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -66,9 +58,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/roles/dto" />
       <recent name="$PROJECT_DIR$/src/schemas" />
       <recent name="$PROJECT_DIR$/src/interfaces" />
+      <recent name="$PROJECT_DIR$/src/roles/dto" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/interfaces" />
