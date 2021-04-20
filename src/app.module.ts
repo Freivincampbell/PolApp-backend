@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { envConfiguration } from './lib/config/envConfiguration';
 import { RolesModule } from './roles/roles.module';
 import { StatusesModule } from './statuses/statuses.module';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
+import { UsersModule } from './users/users.module';
 
 @Module({
 	imports: [
@@ -16,13 +14,19 @@ dotenv.config();
 			isGlobal: true,
 			load: [envConfiguration],
 		}),
-		MongooseModule.forRoot(process.env.DB_URL, {
-			useFindAndModify: true,
-			useUnifiedTopology: true,
-			useCreateIndex: true,
+		MongooseModule.forRootAsync({
+			imports: [ConfigModule],
+			useFactory: async (config: ConfigService) => ({
+				uri: config.get('DB_URL'),
+				useFindAndModify: true,
+				useUnifiedTopology: true,
+				useCreateIndex: true,
+			}),
+			inject: [ConfigService],
 		}),
 		RolesModule,
 		StatusesModule,
+		UsersModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
