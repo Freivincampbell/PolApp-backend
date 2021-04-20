@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="962a1ac0-f8b9-40c2-b82a-74eb1a4d72b7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/statuses/statuses.controller.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/statuses/statuses.controller.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/statuses/statuses.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/statuses/statuses.service.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/users/users.controller.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/users/users.controller.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/users/users.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/users/users.service.spec.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +101,7 @@
       <option name="presentableId" value="Default" />
       <updated>1618710972754</updated>
       <workItem from="1618710974148" duration="13458000" />
+      <workItem from="1618877487219" duration="185000" />
     </task>
     <servers />
   </component>
