@@ -7,6 +7,7 @@ import { envConfiguration } from './lib/config/envConfiguration';
 import { RolesModule } from './roles/roles.module';
 import { StatusesModule } from './statuses/statuses.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
 	imports: [
@@ -15,7 +16,6 @@ import { UsersModule } from './users/users.module';
 			load: [envConfiguration],
 		}),
 		MongooseModule.forRootAsync({
-			imports: [ConfigModule],
 			useFactory: async (config: ConfigService) => ({
 				uri: config.get('DB_URL'),
 				useFindAndModify: true,
@@ -27,6 +27,7 @@ import { UsersModule } from './users/users.module';
 		RolesModule,
 		StatusesModule,
 		UsersModule,
+		AuthModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

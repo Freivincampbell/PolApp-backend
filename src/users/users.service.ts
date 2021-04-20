@@ -83,7 +83,6 @@ export class UsersService {
 	async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
 		if (updateUserDto.password) {
 			updateUserDto.password = this.hashPassword(updateUserDto.password);
-			console.log('nueva pass');
 		}
 
 		return await this.userModel
@@ -100,6 +99,20 @@ export class UsersService {
 			.exec()
 			.catch((errors) => {
 				return errors;
+			});
+	}
+
+	async findOneByUsername(username: string): Promise<User> {
+		return await this.userModel
+			.findOne({ username })
+			.select('+password')
+			.populate({
+				path: 'role',
+				model: Role.name,
+			})
+			.exec()
+			.catch((error) => {
+				return error;
 			});
 	}
 
