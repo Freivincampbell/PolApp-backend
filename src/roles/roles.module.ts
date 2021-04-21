@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RolesService } from './roles.service';
-import { RolesController } from './roles.controller';
-import { Role, RoleSchema } from '../schemas/role.schema';
 import * as uniqueValidator from 'mongoose-unique-validator';
+import { Role, RoleSchema } from '../schemas/role.schema';
+import { RolesController } from './roles.controller';
+import { RolesService } from './roles.service';
 
 @Module({
 	imports: [

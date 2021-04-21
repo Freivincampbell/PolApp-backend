@@ -1,17 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { Role, RoleDocument } from '../schemas/role.schema';
-
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { IRole } from '../interfaces/role.interface';
 
 @Injectable()
 export class RolesService {
 	constructor(@InjectModel(Role.name) private roleModel: Model<RoleDocument>) {}
 
-	async create(createRoleDto: CreateRoleDto): Promise<IRole> {
+	async create(createRoleDto: CreateRoleDto): Promise<Role> {
 		const createdRole = new this.roleModel(createRoleDto);
 
 		return await createdRole.save().catch((errors) => {
@@ -19,7 +17,7 @@ export class RolesService {
 		});
 	}
 
-	async findAll(): Promise<IRole[]> {
+	async findAll(): Promise<Role[]> {
 		return await this.roleModel
 			.find()
 			.exec()
@@ -28,7 +26,7 @@ export class RolesService {
 			});
 	}
 
-	async findOne(id: string): Promise<IRole> {
+	async findOne(id: string): Promise<Role> {
 		return await this.roleModel
 			.findById(id)
 			.exec()
@@ -37,7 +35,7 @@ export class RolesService {
 			});
 	}
 
-	async update(id: string, updateRoleDto: UpdateRoleDto): Promise<IRole> {
+	async update(id: string, updateRoleDto: UpdateRoleDto): Promise<Role> {
 		return await this.roleModel
 			.findByIdAndUpdate(id, updateRoleDto)
 			.exec()
@@ -46,7 +44,7 @@ export class RolesService {
 			});
 	}
 
-	async remove(id: string): Promise<IRole> {
+	async remove(id: string): Promise<Role> {
 		return await this.roleModel
 			.findByIdAndDelete(id)
 			.exec()

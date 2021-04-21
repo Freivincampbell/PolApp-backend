@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '../schemas/user.schema';
-
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Model } from 'mongoose';
 import { Role } from '../schemas/role.schema';
 import { Status } from '../schemas/status.schema';
-import { ConfigService } from '@nestjs/config';
+import { User, UserDocument } from '../schemas/user.schema';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -83,7 +82,6 @@ export class UsersService {
 	async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
 		if (updateUserDto.password) {
 			updateUserDto.password = this.hashPassword(updateUserDto.password);
-			console.log('nueva pass');
 		}
 
 		return await this.userModel
@@ -100,6 +98,20 @@ export class UsersService {
 			.exec()
 			.catch((errors) => {
 				return errors;
+			});
+	}
+
+	async findOneByUsername(username: string): Promise<User> {
+		return await this.userModel
+			.findOne({ username })
+			.select('+password')
+			.populate({
+				path: 'role',
+				model: Role.name,
+			})
+			.exec()
+			.catch((error) => {
+				return error;
 			});
 	}
 

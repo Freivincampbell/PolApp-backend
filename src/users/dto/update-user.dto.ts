@@ -1,5 +1,4 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateUserDto } from './create-user.dto';
 import {
 	IsMongoId,
 	IsNotEmpty,
@@ -7,6 +6,7 @@ import {
 	MaxLength,
 	MinLength,
 } from 'class-validator';
+import { CreateUserDto } from './create-user.dto';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
 	@IsMongoId({ message: 'Invalid ObjectId' })

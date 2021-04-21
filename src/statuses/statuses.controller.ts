@@ -1,46 +1,53 @@
 import {
-	Controller,
-	Get,
-	Post,
 	Body,
-	Patch,
-	Param,
+	Controller,
 	Delete,
+	Get,
+	Param,
+	Patch,
+	Post,
 } from '@nestjs/common';
-import { StatusesService } from './statuses.service';
+import { ROLE } from '../constants';
+import { RolesDecorator } from '../lib/decorators/roles.decorator';
+import { Status } from '../schemas/status.schema';
 import { CreateStatusDto } from './dto/create-status.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
-import { IStatus } from '../interfaces/status.interface';
+import { StatusesService } from './statuses.service';
 
 @Controller('statuses')
 export class StatusesController {
 	constructor(private readonly statusesService: StatusesService) {}
 
 	@Post()
-	async create(@Body() createStatusDto: CreateStatusDto): Promise<IStatus> {
+	@RolesDecorator([ROLE.SUPERADMIN])
+	async create(@Body() createStatusDto: CreateStatusDto): Promise<Status> {
 		return await this.statusesService.create(createStatusDto);
 	}
 
 	@Get()
-	async findAll(): Promise<IStatus[]> {
+	@RolesDecorator([ROLE.SUPERADMIN, ROLE.CLIENT, ROLE.AGENT])
+	async findAll(): Promise<Status[]> {
 		return await this.statusesService.findAll();
 	}
 
 	@Get(':id')
-	async findOne(@Param('id') id: string): Promise<IStatus> {
+	@RolesDecorator([ROLE.SUPERADMIN, ROLE.CLIENT, ROLE.AGENT])
+	async findOne(@Param('id') id: string): Promise<Status> {
 		return await this.statusesService.findOne(id);
 	}
 
 	@Patch(':id')
+	@RolesDecorator([ROLE.SUPERADMIN])
 	async update(
 		@Param('id') id: string,
 		@Body() updateStatusDto: UpdateStatusDto,
-	): Promise<IStatus> {
+	): Promise<Status> {
 		return await this.statusesService.update(id, updateStatusDto);
 	}
 
 	@Delete(':id')
-	async remove(@Param('id') id: string): Promise<IStatus> {
+	@RolesDecorator([ROLE.SUPERADMIN])
+	async remove(@Param('id') id: string): Promise<Status> {
 		return await this.statusesService.remove(id);
 	}
 }
