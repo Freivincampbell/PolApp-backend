@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '../schemas/user.schema';
-
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Model } from 'mongoose';
 import { Role } from '../schemas/role.schema';
 import { Status } from '../schemas/status.schema';
-import { ConfigService } from '@nestjs/config';
+import { User, UserDocument } from '../schemas/user.schema';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {

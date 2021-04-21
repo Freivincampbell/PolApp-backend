@@ -7,8 +7,8 @@ import {
 	MaxLength,
 	MinLength,
 } from 'class-validator';
-import { Status } from '../../schemas/status.schema';
 import { Role } from '../../schemas/role.schema';
+import { Status } from '../../schemas/status.schema';
 import { User } from '../../schemas/user.schema';
 
 export class CreateUserDto {
