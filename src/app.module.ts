@@ -33,6 +33,16 @@ import { UsersModule } from './users/users.module';
 		AuthModule,
 	],
 	controllers: [AppController],
-	providers: [AppService],
+	providers: [
+		AppService,
+		{
+			provide: APP_GUARD,
+			useClass: JwtAuthGuard,
+		},
+		{
+			provide: APP_GUARD,
+			useClass: RolesGuard,
+		},
+	],
 })
 export class AppModule {}

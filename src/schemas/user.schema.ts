@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
-import { Status } from './status.schema';
-import { Role } from './role.schema';
 import * as bcrypt from 'bcrypt';
+import { Document, Types } from 'mongoose';
+import { Role } from './role.schema';
+import { Status } from './status.schema';
 
 export type UserDocument = User & Document;
 

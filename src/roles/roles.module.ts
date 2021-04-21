@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RolesService } from './roles.service';
-import { RolesController } from './roles.controller';
-import { Role, RoleSchema } from '../schemas/role.schema';
 import * as uniqueValidator from 'mongoose-unique-validator';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { APP_GUARD } from '@nestjs/core';
+import { Role, RoleSchema } from '../schemas/role.schema';
+import { RolesController } from './roles.controller';
+import { RolesService } from './roles.service';
 
 @Module({
 	imports: [
@@ -23,12 +21,6 @@ import { APP_GUARD } from '@nestjs/core';
 		]),
 	],
 	controllers: [RolesController],
-	providers: [
-		RolesService,
-		{
-			provide: APP_GUARD,
-			useClass: JwtAuthGuard,
-		},
-	],
+	providers: [RolesService],
 })
 export class RolesModule {}
