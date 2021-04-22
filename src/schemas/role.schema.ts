@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { ROLE } from '../constants';
 
 export type RoleDocument = Role & Document;
 
@@ -10,6 +11,7 @@ export class Role {
 		uppercase: true,
 		unique: true,
 		index: true,
+		enum: [ROLE.SUPERADMIN, ROLE.CLIENT, ROLE.AGENT, ROLE.COSTUMER],
 	})
 	description: string;
 }
