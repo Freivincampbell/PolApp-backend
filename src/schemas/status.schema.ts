@@ -1,14 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { STATUS } from '../constants';
 
 export type StatusDocument = Status & Document;
-
-enum Statuses {
-	ACTIVE = 'ACTIVE',
-	PENDING = 'PENDING',
-	DELETED = 'DELETED',
-	SUSPENDED = 'SUSPENDED',
-}
 
 @Schema()
 export class Status {
@@ -17,7 +11,7 @@ export class Status {
 		uppercase: true,
 		unique: true,
 		index: true,
-		enum: Statuses,
+		enum: [STATUS.ACTIVE, STATUS.PENDING, STATUS.SUSPENDED, STATUS.SUSPENDED],
 	})
 	description: string;
 }
