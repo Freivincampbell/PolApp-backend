@@ -1,5 +1,6 @@
 import {
 	IsEmail,
+	IsEnum,
 	IsMobilePhone,
 	IsMongoId,
 	IsNotEmpty,
@@ -7,9 +8,8 @@ import {
 	MaxLength,
 	MinLength,
 } from 'class-validator';
-import { Role } from '../../schemas/role.schema';
-import { Status } from '../../schemas/status.schema';
-import { User } from '../../schemas/user.schema';
+import { ObjectId } from 'mongoose';
+import { ROLE, STATUS } from '../../constants';
 
 export class CreateUserDto {
 	@IsNotEmpty({ message: 'Name must not be empty' })
@@ -60,15 +60,11 @@ export class CreateUserDto {
 
 	@IsNotEmpty({ message: 'Status must not be empty' })
 	@IsString({ message: 'Status must be a string' })
-	@IsMongoId({ message: 'Invalid Status ObjectId' })
-	readonly status: Status;
+	@IsEnum([STATUS.ACTIVE, STATUS.PENDING, STATUS.SUSPENDED, STATUS.SUSPENDED])
+	readonly status: string;
 
 	@IsNotEmpty({ message: 'Role must not be empty' })
 	@IsString({ message: 'Role must be a string' })
-	@IsMongoId({ message: 'Invalid Role ObjectId' })
-	readonly role: Role;
-
-	@IsString({ message: 'User must be a string' })
-	@IsMongoId({ message: 'Invalid User ObjectId' })
-	readonly user?: User;
+	@IsEnum([ROLE.SUPERADMIN, ROLE.CLIENT, ROLE.AGENT, ROLE.COSTUMER])
+	readonly role: string;
 }

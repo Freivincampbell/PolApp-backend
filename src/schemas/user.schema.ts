@@ -1,8 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
-import { Document, Types } from 'mongoose';
-import { Role } from './role.schema';
-import { Status } from './status.schema';
+import { Document, ObjectId, Types } from 'mongoose';
+import { ROLE, STATUS } from '../constants';
 
 export type UserDocument = User & Document;
 
@@ -60,29 +59,29 @@ export class User {
 
 	@Prop({
 		required: [true, 'Status must not be empty'],
-		type: Types.ObjectId,
-		ref: Status.name,
+		index: true,
+		enum: [STATUS.ACTIVE, STATUS.PENDING, STATUS.SUSPENDED, STATUS.SUSPENDED],
 	})
-	status: Status;
+	status: string;
 
 	@Prop({
 		required: [true, 'Role must not be empty'],
-		type: Types.ObjectId,
-		ref: Role.name,
+		index: true,
+		enum: [ROLE.SUPERADMIN, ROLE.CLIENT, ROLE.AGENT, ROLE.COSTUMER],
 	})
-	role: Role;
+	role: string;
 
 	@Prop({
 		type: Types.ObjectId,
 		ref: User.name,
 	})
-	user: User;
+	user: ObjectId;
 
 	comparePassword(password: string): boolean {
 		return bcrypt.compareSync(password, this.password);
 	}
 
-	hashPassword(password: string, HASH_SALT: number): string {
+	async hashPassword(password: string, HASH_SALT: number): Promise<string> {
 		return bcrypt.hashSync(password, HASH_SALT);
 	}
 }
