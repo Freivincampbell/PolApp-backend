@@ -4,3 +4,10 @@ export const enum ROLE {
 	AGENT = 'AGENT',
 	COSTUMER = 'COSTUMER',
 }
+
+export const enum STATUS {
+	ACTIVE = 'ACTIVE',
+	PENDING = 'PENDING',
+	DELETED = 'DELETED',
+	SUSPENDED = 'SUSPENDED',
+}
