@@ -2,7 +2,9 @@ import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
+import { ICurrentUser } from './interfaces/current-user.interface';
 import { Public } from './lib/decorators/public.decorator';
+import { CurrentUser } from './lib/decorators/user.decorator';
 
 @Controller()
 export class AppController {
@@ -20,12 +22,12 @@ export class AppController {
 	@Public()
 	@UseGuards(LocalAuthGuard)
 	@Post('auth/login')
-	async login(@Request() req) {
+	async login(@Request() req): Promise<any> {
 		return this.authService.login(req.user);
 	}
 
 	@Get('profile')
-	getProfile(@Request() req) {
-		return req.user;
+	getProfile(@CurrentUser() user: ICurrentUser): ICurrentUser {
+		return user;
 	}
 }
