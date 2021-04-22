@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Role } from '../schemas/role.schema';
-import { Status } from '../schemas/status.schema';
+import { Model, ObjectId } from 'mongoose';
+import { ROLE, STATUS } from '../constants';
+import { ICurrentUser } from '../interfaces/current-user.interface';
+import { RolesDecorator } from '../lib/decorators/roles.decorator';
 import { User, UserDocument } from '../schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { findAllQuery, findOneQuery } from './queries/users.query';
 
 @Injectable()
 export class UsersService {
@@ -15,10 +17,14 @@ export class UsersService {
 		private readonly configService: ConfigService,
 	) {}
 
-	async create(createUserDto: CreateUserDto): Promise<User> {
+	async create(
+		createUserDto: CreateUserDto,
+		currentUser: ICurrentUser,
+	): Promise<User> {
 		const createdUser = new this.userModel(createUserDto);
 
-		createdUser.password = this.hashPassword(createdUser.password);
+		createdUser.password = await this.hashPassword(createdUser.password);
+		createdUser.user = this.assignUser(currentUser);
 
 		const result = await createdUser.save().catch((errors) => {
 			return errors;
@@ -29,24 +35,12 @@ export class UsersService {
 		return result;
 	}
 
-	async findAll(): Promise<User[]> {
+	async findAll(currentUser: ICurrentUser): Promise<User[]> {
 		return await this.userModel
-			.find()
+			.find(findAllQuery(currentUser))
 			.populate({
 				path: 'user',
 				model: User.name,
-				populate: {
-					path: 'role',
-					model: Role.name,
-				},
-			})
-			.populate({
-				path: 'user',
-				model: User.name,
-				populate: {
-					path: 'status',
-					model: Status.name,
-				},
 			})
 			.exec()
 			.catch((errors) => {
@@ -54,24 +48,12 @@ export class UsersService {
 			});
 	}
 
-	async findOne(id: string): Promise<User> {
+	async findOne({ id, currentUser }): Promise<User> {
 		return await this.userModel
-			.findById(id)
+			.findOne(findOneQuery(id, currentUser))
 			.populate({
 				path: 'user',
 				model: User.name,
-				populate: {
-					path: 'role',
-					model: Role.name,
-				},
-			})
-			.populate({
-				path: 'user',
-				model: User.name,
-				populate: {
-					path: 'status',
-					model: Status.name,
-				},
 			})
 			.exec()
 			.catch((errors) => {
@@ -81,7 +63,7 @@ export class UsersService {
 
 	async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
 		if (updateUserDto.password) {
-			updateUserDto.password = this.hashPassword(updateUserDto.password);
+			updateUserDto.password = await this.hashPassword(updateUserDto.password);
 		}
 
 		return await this.userModel
@@ -103,25 +85,33 @@ export class UsersService {
 
 	async findOneByUsername(username: string): Promise<User> {
 		return await this.userModel
-			.findOne({ username })
+			.findOne({ username, status: STATUS.ACTIVE })
 			.select('+password')
-			.populate({
-				path: 'role',
-				model: Role.name,
-			})
 			.exec()
 			.catch((error) => {
 				return error;
 			});
 	}
 
-	private readonly hashPassword = (password: string): string => {
-		return new this.userModel().hashPassword(
+	private readonly hashPassword = async (password: string): Promise<string> => {
+		return await new this.userModel().hashPassword(
 			password,
 			parseInt(this.configService.get('HASH_SALT')),
 		);
 	};
-}
 
-// const user = await this.userModel.findById(id).select('+password').exec();
-// const same = user.comparePassword('12345');
+	private readonly assignUser = ({
+		id,
+		role,
+		user,
+	}: ICurrentUser): ObjectId => {
+		switch (role) {
+			case ROLE.CLIENT:
+				return id;
+			case ROLE.AGENT:
+				return user;
+			case ROLE.SUPERADMIN:
+				return id;
+		}
+	};
+}
