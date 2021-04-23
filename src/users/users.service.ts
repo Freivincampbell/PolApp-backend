@@ -4,11 +4,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { ROLE, STATUS } from '../constants';
 import { ICurrentUser } from '../interfaces/current-user.interface';
-import { RolesDecorator } from '../lib/decorators/roles.decorator';
 import { User, UserDocument } from '../schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { findAllQuery, findOneQuery } from './queries/users.query';
+import { findAllQuery, findOneQuery, updateQuery } from './queries/users.query';
 
 @Injectable()
 export class UsersService {
@@ -30,7 +29,7 @@ export class UsersService {
 			return errors;
 		});
 
-		if (result.id) return await this.findOne(result.id);
+		if (result.id) return await this.findOne(result.id, currentUser);
 
 		return result;
 	}
@@ -48,7 +47,7 @@ export class UsersService {
 			});
 	}
 
-	async findOne({ id, currentUser }): Promise<User> {
+	async findOne(id, currentUser): Promise<User> {
 		return await this.userModel
 			.findOne(findOneQuery(id, currentUser))
 			.populate({
@@ -61,13 +60,19 @@ export class UsersService {
 			});
 	}
 
-	async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+	async update(
+		id: string,
+		updateUserDto: UpdateUserDto,
+		currentUser: ICurrentUser,
+	): Promise<User> {
 		if (updateUserDto.password) {
 			updateUserDto.password = await this.hashPassword(updateUserDto.password);
 		}
 
 		return await this.userModel
-			.findByIdAndUpdate(id, updateUserDto, { new: true })
+			.findOneAndUpdate(updateQuery(id, currentUser), updateUserDto, {
+				new: true,
+			})
 			.exec()
 			.catch((errors) => {
 				return errors;
