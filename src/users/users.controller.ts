@@ -23,8 +23,8 @@ export class UsersController {
 	@Post()
 	@RolesDecorator([ROLE.SUPERADMIN, ROLE.CLIENT, ROLE.AGENT])
 	async create(
-		@Body() createUserDto: CreateUserDto,
 		@CurrentUser() user: ICurrentUser,
+		@Body() createUserDto: CreateUserDto,
 	): Promise<User> {
 		return await this.usersService.create(createUserDto, user);
 	}
@@ -41,20 +41,21 @@ export class UsersController {
 		@CurrentUser() currentUser: ICurrentUser,
 		@Param('id') id: string,
 	): Promise<User> {
-		return await this.usersService.findOne({ currentUser, id });
+		return await this.usersService.findOne(id, currentUser);
 	}
 
 	@Patch(':id')
-	@RolesDecorator([ROLE.SUPERADMIN, ROLE.CLIENT])
+	@RolesDecorator([ROLE.SUPERADMIN, ROLE.CLIENT, ROLE.AGENT])
 	async update(
+		@CurrentUser() currentUser: ICurrentUser,
 		@Param('id') id: string,
 		@Body() updateUserDto: UpdateUserDto,
 	): Promise<User> {
-		return await this.usersService.update(id, updateUserDto);
+		return await this.usersService.update(id, updateUserDto, currentUser);
 	}
 
 	@Delete(':id')
-	@RolesDecorator([ROLE.SUPERADMIN, ROLE.CLIENT])
+	@RolesDecorator([ROLE.SUPERADMIN])
 	async remove(@Param('id') id: string): Promise<User> {
 		return await this.usersService.remove(id);
 	}
