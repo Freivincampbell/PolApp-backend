@@ -21,7 +21,7 @@ import { UsersModule } from './users/users.module';
 		MongooseModule.forRootAsync({
 			useFactory: async (config: ConfigService) => ({
 				uri: config.get('DB_URL'),
-				useFindAndModify: true,
+				useFindAndModify: false,
 				useUnifiedTopology: true,
 				useCreateIndex: true,
 			}),
